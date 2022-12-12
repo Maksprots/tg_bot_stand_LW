@@ -1,5 +1,6 @@
 from aiogram import Bot, Dispatcher, executor, types
 import os
+import markups as nav
 from dotenv import load_dotenv
 load_dotenv()
 TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
@@ -21,6 +22,18 @@ async def cmd_start(message: types.Message):
         resize_keyboard=True
     )
     await message.answer("Выберите раздел", reply_markup=keyboard)
+
+@dispatcher.message_handler()
+async def bot_message(message: types.Message):
+    if message.text == "Меню":
+        await bot.send_message(message.from_user.id, "какое-то описание двух способов", reply_markup = nav.mainMenu)
+# возвращение в меню неактивно
+    elif message.text == "⬅ Меню":
+        await bot.send_message(message.from_user.id, "⬅ Меню", )
+# пока кнопка не взаимосвязана с функцией
+    elif message.text == "Способ 1":
+        await bot.send_message(message.from_user.id, "прикрепите файл" )
+
 
 
 @dispatcher.message_handler(content_types=['document'])
