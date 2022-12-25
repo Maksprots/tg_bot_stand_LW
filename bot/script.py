@@ -1,7 +1,6 @@
 from aiogram import executor
 from create_bot import dispatcher
 
-
 from handlers import MainMenuw12, way1, way2
 
 MainMenuw12.register_handlers_MainMenuw12(dispatcher)
