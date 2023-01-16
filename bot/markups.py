@@ -1,52 +1,38 @@
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
+from aiogram.types import ReplyKeyboardMarkup
+import buttons as bt
 
-# ****************** MainMenuw12  ******************
-# - Start menu -
-bmenu = KeyboardButton("Меню")
-bhelp = KeyboardButton("Поддержка")
-startMenu = ReplyKeyboardMarkup(resize_keyboard=True).add(bmenu, bhelp)
-# - Main menu -
-bwork1 = KeyboardButton("Способ 1")
-bwork2 = KeyboardButton("Способ 2")
-bmore = KeyboardButton("Подробнее")
-bmain = KeyboardButton("⬅ Меню")
-mainMenu = ReplyKeyboardMarkup(resize_keyboard=True)\
-    .add(bwork1, bwork2).add(bmain)
 
-# ****************** way1  ******************
-bcancel = KeyboardButton("/cancel")
-ways = ReplyKeyboardMarkup(resize_keyboard=True).add(bcancel)
-bstep1 = KeyboardButton("К шагу 1")
-step1 = ReplyKeyboardMarkup(resize_keyboard=True).add(bcancel, bstep1)
-bstep2 = KeyboardButton("К шагу 2")
-step2 = ReplyKeyboardMarkup(resize_keyboard=True)\
-    .add(bstep1, bstep2).add(bcancel)
-bstep3 = KeyboardButton("К шагу 3")
-step3 = ReplyKeyboardMarkup(resize_keyboard=True)\
-    .add(bstep2, bstep3).add(bcancel)
-bstep4 = KeyboardButton("К шагу 4")
-step4 = ReplyKeyboardMarkup(resize_keyboard=True)\
-    .add(bstep3, bstep4).add(bcancel)
+start = ReplyKeyboardMarkup(resize_keyboard=True).add(bt.menu, bt.support)
 
-bscript = KeyboardButton("Правила оформления")
-rightscript = ReplyKeyboardMarkup(resize_keyboard=True)\
-    .add(bscript).add(bcancel)
+menu = ReplyKeyboardMarkup(resize_keyboard=True) \
+    .add(bt.way_1, bt.way_2).add(bt.back2menu)
 
-baction = KeyboardButton("Команды")
-fullaction = ReplyKeyboardMarkup(resize_keyboard=True)\
-    .add(bscript, baction).add(bcancel)
+ways = ReplyKeyboardMarkup(resize_keyboard=True).add(bt.cancel)
+step_1 = ReplyKeyboardMarkup(resize_keyboard=True).add(bt.cancel, bt.to_step_1)
 
-bbut = KeyboardButton("Команда «Кнопка»")
-btime = KeyboardButton("Команда «Задержка»")
-bswitch = KeyboardButton("Команда «Переключатель»")
-bex = KeyboardButton("Пример")
-allcom = ReplyKeyboardMarkup(resize_keyboard=True)\
-    .add(bbut, btime).add(bswitch).add(bex, bcancel)
+step_2 = ReplyKeyboardMarkup(resize_keyboard=True) \
+    .add(bt.to_step_1, bt.to_step_2).add(bt.cancel)
 
-example = ReplyKeyboardMarkup(resize_keyboard=True)\
-    .add(baction, bex).add(bcancel)
-bexcept = KeyboardButton("Ограничения")
-bdwld = KeyboardButton("Загрузка cценария")
-dwldexcept = ReplyKeyboardMarkup(resize_keyboard=True)\
-    .add(bex, bdwld).add(bexcept, bcancel)
-dwld = ReplyKeyboardMarkup(resize_keyboard=True).add(bcancel, bdwld)
+step_3 = ReplyKeyboardMarkup(resize_keyboard=True) \
+    .add(bt.to_step_2, bt.to_step_3).add(bt.cancel)
+
+step_4 = ReplyKeyboardMarkup(resize_keyboard=True) \
+    .add(bt.to_step_3, bt.to_step_4).add(bt.bcancel)
+
+check_rules = ReplyKeyboardMarkup(resize_keyboard=True) \
+    .add(bt.rules).add(bt.cancel)
+
+check_commands = ReplyKeyboardMarkup(resize_keyboard=True) \
+    .add(bt.rules, bt.commands).add(bt.cancel)
+
+commands_list = ReplyKeyboardMarkup(resize_keyboard=True) \
+    .add(bt.button_cmd, bt.wait_cmd) \
+    .add(bt.switch_cmd).add(bt.example_cmd, bt.cancel)
+
+example = ReplyKeyboardMarkup(resize_keyboard=True) \
+    .add(bt.commands, bt.example_cmd).add(bt.cancel)
+
+loading_or_scopes = ReplyKeyboardMarkup(resize_keyboard=True) \
+    .add(bt.example_cmd, bt.loading_script).add(bt.scopes, bt.cancel)
+loading = ReplyKeyboardMarkup(resize_keyboard=True)\
+    .add(bt.cancel, bt.loading_script)

@@ -1,9 +1,9 @@
 from aiogram import Dispatcher, types
-from create_bot import bot
+from ..create_bot import bot
 from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher.filters.state import StatesGroup, State
 from aiogram.dispatcher import FSMContext
-import markups as nav
+from .. import markups as mp
 
 
 # Отмена загрузки файлов
@@ -11,7 +11,7 @@ async def cancel_load(message: types.Message, state: FSMContext) -> None:
     current_state = await state.get_state()
     if current_state is None:
         return
-    await message.reply("Вернулись в меню", reply_markup=nav.startMenu)
+    await message.reply('Вернулись в меню', reply_markup=mp.menu)
     await state.finish()
 
 
@@ -29,7 +29,7 @@ async def choose_way1(message: types.Message) -> None:
                          "ботом на удаленном стенде\n"
                          "Чтобы приступить к работе нажмите к «шагу 1»\n"
                          "Чтобы вернуться в главное меню нажмите «cancel»\n",
-                         reply_markup=nav.step1)
+                         reply_markup=mp.step_1)
 
 
 # Подготовка проекта пользователем
@@ -37,7 +37,7 @@ async def fstep1(message: types.Message) -> None:
     await ClientStatesGroup.nothing.set()
     await message.answer("Подготовьте проект для платы De10Lite\n"
                          "Если готовы, перходите к шагу 2\n"
-                         "Иначе вернитесь к шагу 1", reply_markup=nav.step2)
+                         "Иначе вернитесь к шагу 1", reply_markup=mp.step_2)
 
 
 # Объяснение о прошивке пользователю
@@ -46,7 +46,7 @@ async def fstep2(message: types.Message) -> None:
     await message.answer(
         "Скомпилируйте проект и получите файл прошивки, он будет по умолчанию"
         " находиться в папке output_files и иметь расширение «.sof».\n",
-        reply_markup=nav.step3)
+        reply_markup=mp.step_3)
 
 
 # Отправка пользователем прошивки
@@ -62,7 +62,7 @@ async def load_board(message: types.Message):
     board_info = await bot.get_file(board_id)
     await message.document.download(board_info.file_path)
     await message.answer("Прошивка успешно сохранена\n"
-                         "Переходите к шагу 4", reply_markup=nav.step4)
+                         "Переходите к шагу 4", reply_markup=mp.step_4)
 
 
 # отправка пользователем сценария
@@ -73,7 +73,7 @@ async def learn_more_script(message: types.Message) -> None:
                          "Для этого нужно ознакомиться с правилами "
                          "оформления сценария и допустимыми командами.\n\n"
                          "Ознакомьтесь с оформлением сценария.\n\n",
-                         reply_markup=nav.rightscript)
+                         reply_markup=mp.check_rules)
 
 
 # ознакомление с правилами оформления
@@ -97,7 +97,7 @@ async def start_learn_script(message: types.Message) -> None:
                          "находится на строчку выше. \n\n")
     await message.answer("Когда ознакомитесь с правилами оформления сценария"
                          " переходите к изучению доступных команд\n",
-                         reply_markup=nav.fullaction)
+                         reply_markup=mp.check_commands)
 
 
 # начало ознакомления с командами в целом
@@ -110,7 +110,7 @@ async def learn_comands(message: types.Message) -> None:
                          "Чтобы ознакомиться с командами нажмите на кнопку,"
                          " соответстующую команде\n"
                          "Когда ознакомитесь с доступными командами,"
-                         " переходите к примеру\n", reply_markup=nav.allcom)
+                         " переходите к примеру\n", reply_markup=mp.commands_list)
 
 
 # ознакомление с командой «Кнопка»
@@ -129,7 +129,7 @@ async def learn_comand1(message: types.Message) -> None:
                          "Чтобы ознакомиться с другими командами нажмите"
                          " на кнопку соответстующую им\n"
                          "Когда ознакомитесь с доступными командами, "
-                         "переходите к примеру\n", reply_markup=nav.allcom)
+                         "переходите к примеру\n", reply_markup=mp.commands_list)
 
 
 # ознакомление с командой «Переключатель»
@@ -148,7 +148,7 @@ async def learn_comand2(message: types.Message) -> None:
                          "Чтобы ознакомиться с другими командами нажмите "
                          "на кнопку соответстующую им\n"
                          "Когда ознакомитесь с доступными командами, "
-                         "переходите к примеру\n", reply_markup=nav.allcom)
+                         "переходите к примеру\n", reply_markup=mp.commands_list)
 
 
 # ознакомление с командой «Задержка»
@@ -166,7 +166,8 @@ async def learn_comand3(message: types.Message) -> None:
                          "Чтобы ознакомиться с другими командами нажмите на"
                          " кнопку соответстующую им\n"
                          "Когда ознакомитесь с доступными командами, "
-                         "переходите к примеру\n", reply_markup=nav.allcom)
+                         "переходите к примеру\n",
+                         reply_markup=mp.commands_list)
 
 
 # пример составления сценария
@@ -184,7 +185,7 @@ async def learn_example(message: types.Message) -> None:
                          "ограничениями стенда, для этого нажмите"
                          " «Ограничения»."
                          "\nЛибо преступите к загрузке сценария.",
-                         reply_markup=nav.dwldexcept)
+                         reply_markup=mp.loading_or_scopes)
 
 
 # ознакомление с ограничениями
@@ -204,13 +205,13 @@ async def learn_exception(message: types.Message) -> None:
                          "6) Нельзя указывать индексы кнопок и переключателей"
                          " меньше 1 и больше 8.\n"
                          "7) При неправильном написании команд они не "
-                         "будут выполнены", reply_markup=nav.dwld)
+                         "будут выполнены", reply_markup=mp.loading)
 
 
 # шаг загрузки сценария
 async def start_load_desc(message: types.Message) -> None:
     await ClientStatesGroup.desc.set()
-    await message.answer("Прикрепите сценарий!", reply_markup=nav.ways)
+    await message.answer("Прикрепите сценарий!", reply_markup=mp.ways)
 
 
 # Сохранить документ
@@ -219,7 +220,7 @@ async def scan_message(message: types.Message, state: FSMContext):
     file_info = await bot.get_file(document_id)
     await message.document.download(file_info.file_path)
     await message.answer('Сценарий успешно сохранен')
-    await message.answer('У вас всё получилось🎉', reply_markup=nav.startMenu)
+    await message.answer('У вас всё получилось🎉', reply_markup=mp.menu)
     await state.finish()
 
 
