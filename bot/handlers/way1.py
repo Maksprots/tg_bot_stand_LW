@@ -1,9 +1,9 @@
 from aiogram import Dispatcher, types
-from ..create_bot import bot
+from bot.create_bot import bot
 from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher.filters.state import StatesGroup, State
 from aiogram.dispatcher import FSMContext
-from .. import markups as mp
+from bot import markups as mp
 
 
 # Отмена загрузки файлов

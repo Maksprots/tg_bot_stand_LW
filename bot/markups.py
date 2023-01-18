@@ -17,7 +17,7 @@ step_3 = ReplyKeyboardMarkup(resize_keyboard=True) \
     .add(bt.to_step_2, bt.to_step_3).add(bt.cancel)
 
 step_4 = ReplyKeyboardMarkup(resize_keyboard=True) \
-    .add(bt.to_step_3, bt.to_step_4).add(bt.bcancel)
+    .add(bt.to_step_3, bt.to_step_4).add(bt.cancel)
 
 check_rules = ReplyKeyboardMarkup(resize_keyboard=True) \
     .add(bt.rules).add(bt.cancel)

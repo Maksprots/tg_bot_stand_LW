@@ -1,6 +1,6 @@
 from aiogram import types, Dispatcher
-from ..create_bot import bot
-from .. import markups as nav
+from bot.create_bot  import bot
+from bot import markups as nav
 from aiogram.dispatcher.filters import Text
 
 
