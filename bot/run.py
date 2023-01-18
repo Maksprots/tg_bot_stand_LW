@@ -1,11 +1,11 @@
 from aiogram import executor
 from create_bot import dispatcher
+from handlers import way_making_with_bot, way_making_without_bot
+from bot import start_menu_handler
 
-from handlers import MainMenuw12, way1, way2
-
-MainMenuw12.register_handlers_MainMenuw12(dispatcher)
-way1.register_handlers_way1(dispatcher)
-way2.register_handlers_way2(dispatcher)
+start_menu_handler.registration_of_handlers(dispatcher)
+way_making_with_bot.registration_of_handlers(dispatcher)
+way_making_without_bot.register_handlers_way2(dispatcher)
 
 if __name__ == '__main__':
     executor.start_polling(dispatcher, skip_updates=False)

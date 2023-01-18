@@ -34,7 +34,7 @@ async def bot_message(message: types.Message) -> None:
                                reply_markup=nav.menu)
 
 
-def register_handlers_MainMenuw12(dispatcher: Dispatcher):
+def registration_of_handlers(dispatcher: Dispatcher):
     dispatcher.register_message_handler(cmd_start,
                                         commands=["start"])
     dispatcher.register_message_handler(bot_message,

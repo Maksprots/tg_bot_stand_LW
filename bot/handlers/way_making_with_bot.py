@@ -225,7 +225,7 @@ async def scan_message(message: types.Message, state: FSMContext):
 
 
 # регестрация хэндлеров
-def register_handlers_way1(dispatcher: Dispatcher):
+def registration_of_handlers(dispatcher: Dispatcher):
     dispatcher.register_message_handler(
         cancel_load, commands=["cancel"], state="*")
     dispatcher.register_message_handler(
