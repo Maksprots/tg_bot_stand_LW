@@ -6,7 +6,7 @@ from aiogram.dispatcher import FSMContext
 from bot import markups as mp
 import yaml
 
-filename = 'bot/static/texts/answers_text_way2.yaml'
+filename = 'bot\\static\\texts\\answers_text_way2.yaml'
 
 
 def read_from_yaml(filepath, text_name):
@@ -16,7 +16,7 @@ def read_from_yaml(filepath, text_name):
 
 
 # Отмена загрузки файлов
-async def cancel_load(message: types.Message, state: FSMContext) -> None:
+async def cancel_load_w2(message: types.Message, state: FSMContext) -> None:
     current_state = await state.get_state()
     if current_state is None:
         return
@@ -26,7 +26,7 @@ async def cancel_load(message: types.Message, state: FSMContext) -> None:
 
 
 # назначение состояний
-class ClientStatesGroup(StatesGroup):
+class ClientStatesGroup2(StatesGroup):
     nothing = State()
     board = State()
     desc = State()
@@ -34,21 +34,21 @@ class ClientStatesGroup(StatesGroup):
 
 # выбрали способ 2
 async def choose_way2(message: types.Message) -> None:
-    await ClientStatesGroup.nothing.set()
+    await ClientStatesGroup2.nothing.set()
     await message \
         .answer(read_from_yaml(filename, 'chosen_way_without_bot'),
                 reply_markup=mp.begin_way2)
 
 
 # отправка пользователем прошивки
-async def start_load_board(message: types.Message) -> None:
-    await ClientStatesGroup.board.set()
+async def start_load_board_w2(message: types.Message) -> None:
+    await ClientStatesGroup2.board.set()
     await message.answer(read_from_yaml(filename, 'add_file_sof'))
 
 
 # Сохранение прошивки
-async def load_board(message: types.Message):
-    await ClientStatesGroup.board.set()
+async def load_board_w2(message: types.Message):
+    await ClientStatesGroup2.board.set()
     board_id = message.document.file_id
     board_info = await bot.get_file(board_id)
     await message.document.download(board_info.file_path)
@@ -56,13 +56,13 @@ async def load_board(message: types.Message):
                          reply_markup=mp.middle_way2)
 
 
-async def start_load_desc(message: types.Message) -> None:
-    await ClientStatesGroup.desc.set()
-    await message.answer(read_from_yaml(filename, 'script_loading'),
-                         reply_markup=mp.ways)
+async def start_load_desc_w2(message: types.Message) -> None:
+    await ClientStatesGroup2.desc.set()
+    await message.answer(read_from_yaml(filename, 'script_loading'))
 
 
-async def scan_message(message: types.Message, state: FSMContext):
+
+async def scan_message_w2(message: types.Message, state: FSMContext):
     document_id = message.document.file_id
     file_info = await bot.get_file(document_id)
     await message.document.download(file_info.file_path)
@@ -74,18 +74,18 @@ async def scan_message(message: types.Message, state: FSMContext):
 
 def registration_of_handlers(dispatcher: Dispatcher):
     dispatcher.register_message_handler(
-        cancel_load, commands=["cancel"], state="*")
+        cancel_load_w2, commands=["cancel"], state="*")
     dispatcher.register_message_handler(
         choose_way2, Text(equals="Способ 2", ignore_case=True), state="*")
     dispatcher.register_message_handler(
-        start_load_board, Text(equals="К загрузке сценария", ignore_case=True),
+        start_load_board_w2, Text(equals="Загрузка прошивки", ignore_case=True),
         state="*")
     dispatcher.register_message_handler(
-        load_board, content_types=['document'],
-        state=ClientStatesGroup.board.state)
+        load_board_w2, content_types=['document'],
+        state=ClientStatesGroup2.board.state)
     dispatcher.register_message_handler(
-        start_load_desc, Text(equals="Загрузка cценария", ignore_case=True),
+        start_load_desc_w2, Text(equals="Загрузить cценарий", ignore_case=True),
         state="*")
     dispatcher.register_message_handler(
-        scan_message, content_types=['document'],
-        state=ClientStatesGroup.desc.state)
+        scan_message_w2, content_types=['document'],
+        state=ClientStatesGroup2.desc.state)
