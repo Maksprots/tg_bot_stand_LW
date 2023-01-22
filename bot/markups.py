@@ -8,7 +8,6 @@ menu = ReplyKeyboardMarkup(resize_keyboard=True) \
     .add(bt.way_1, bt.way_2).add(bt.back2menu)
 
 ways = ReplyKeyboardMarkup(resize_keyboard=True).add(bt.cancel)
-ways2 = ReplyKeyboardMarkup(resize_keyboard=True).add(bt.cancel)
 step_1 = ReplyKeyboardMarkup(resize_keyboard=True).add(bt.cancel, bt.to_step_1)
 
 step_2 = ReplyKeyboardMarkup(resize_keyboard=True) \
@@ -38,8 +37,8 @@ loading_or_scopes = ReplyKeyboardMarkup(resize_keyboard=True) \
 loading = ReplyKeyboardMarkup(resize_keyboard=True)\
     .add(bt.cancel, bt.loading_script)
 
-begin_way2 = ReplyKeyboardMarkup(resize_keyboard=True)\
-    .add(bt.cancel, bt.start_way2)
+load_firmware = ReplyKeyboardMarkup(resize_keyboard=True)\
+    .add(bt.cancel, bt.loading_firmware)
 
-middle_way2 = ReplyKeyboardMarkup(resize_keyboard=True)\
-    .add(bt.start_way2, bt.loading_script_2).add(bt.cancel)
+load_script = ReplyKeyboardMarkup(resize_keyboard=True)\
+    .add(bt.loading_firmware, bt.loading_script_2).add(bt.cancel)
