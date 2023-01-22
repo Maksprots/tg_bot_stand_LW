@@ -36,3 +36,9 @@ loading_or_scopes = ReplyKeyboardMarkup(resize_keyboard=True) \
     .add(bt.example_cmd, bt.loading_script).add(bt.scopes, bt.cancel)
 loading = ReplyKeyboardMarkup(resize_keyboard=True)\
     .add(bt.cancel, bt.loading_script)
+
+load_firmware = ReplyKeyboardMarkup(resize_keyboard=True)\
+    .add(bt.cancel, bt.loading_firmware)
+
+load_script = ReplyKeyboardMarkup(resize_keyboard=True)\
+    .add(bt.loading_firmware, bt.loading_script_2).add(bt.cancel)
