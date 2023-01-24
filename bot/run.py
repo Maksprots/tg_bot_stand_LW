@@ -5,7 +5,8 @@ from bot import start_menu_handler
 
 start_menu_handler.registration_of_handlers(dispatcher)
 way_making_with_bot.registration_of_handlers(dispatcher)
-way_making_without_bot.register_handlers_way2(dispatcher)
+way_making_without_bot.registration_of_handlers(dispatcher)
+
 
 if __name__ == '__main__':
     executor.start_polling(dispatcher, skip_updates=False)

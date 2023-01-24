@@ -1,6 +1,6 @@
 from aiogram import types, Dispatcher
 from bot.create_bot import bot
-from bot import markups as nav
+from bot import markups as mp
 from aiogram.dispatcher.filters import Text
 
 
@@ -10,7 +10,7 @@ async def cmd_start(message: types.Message) -> None:
                          "Чтобы приступить к работе выберете раздел "
                          "«Меню»\n"
                          "Если есть вопросы нажмите «Поддержка»",
-                         reply_markup=nav.start)
+                         reply_markup=mp.start)
 
 
 # @dispatcher.message_handler()
@@ -28,10 +28,10 @@ async def bot_message(message: types.Message) -> None:
                                                      "Какое-то описание "
                                                      "способа 2.\n\n"
                                                      "Выберите способ\n",
-                               reply_markup=nav.menu)
+                               reply_markup=mp.menu)
     elif message.text == "⬅ Меню":
         await bot.send_message(message.from_user.id, "⬅ Меню",
-                               reply_markup=nav.menu)
+                               reply_markup=mp.menu)
 
 
 def registration_of_handlers(dispatcher: Dispatcher):
@@ -40,6 +40,6 @@ def registration_of_handlers(dispatcher: Dispatcher):
     dispatcher.register_message_handler(bot_message,
                                         Text(equals="Меню",
                                              ignore_case=True))
-    dispatcher.register_message_handler(bot_message,
+    dispatcher.register_message_handler(cmd_start,
                                         Text(equals="⬅ Меню",
                                              ignore_case=True))

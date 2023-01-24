@@ -9,7 +9,7 @@ import os
 
 
 # Получение словаря сообщений из .yaml
-with open(os.getcwd() + '/static/texts/answers_text.yaml',
+with open(os.getcwd() + '/static/texts/answers_text_with_bot.yaml',
           encoding='UTF-8') as f:
     read_answers = yaml.safe_load(f)
 

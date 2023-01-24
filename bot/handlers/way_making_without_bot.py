@@ -5,17 +5,13 @@ from aiogram.dispatcher.filters.state import StatesGroup, State
 from aiogram.dispatcher import FSMContext
 from bot import markups as mp
 import yaml
+import os
+
 LANGUAGE = 'RU'
-filename = 'bot\\static\\texts\\answers_text_way2.yaml'
+filename = '/static/texts/answers_text_without_bot.yaml'
 
-
-def read_from_yaml(filepath):
-    with open(filepath, encoding='utf-8') as fh:
-        dictionary_data = yaml.safe_load(fh)
-        return dictionary_data
-
-
-dictionary_yaml_answers = read_from_yaml(filename)
+with open(os.getcwd() + filename, encoding='utf-8') as fh:
+    dictionary_yaml_answers = yaml.safe_load(fh)
 
 
 # Отмена загрузки файлов
