@@ -7,11 +7,17 @@ from bot import markups as mp
 import yaml
 import os
 
+TEXT_PATH = '/static/texts/answers_text_with_bot.yaml'
 
-# Получение словаря сообщений из .yaml
-with open(os.getcwd() + '/static/texts/answers_text_with_bot.yaml',
+with open(os.getcwd() + TEXT_PATH,
           encoding='UTF-8') as f:
     read_answers = yaml.safe_load(f)
+
+
+class ClientStatesGroup(StatesGroup):
+    nothing = State()
+    board = State()
+    desc = State()
 
 
 # Отмена загрузки файлов
@@ -24,15 +30,7 @@ async def cancel_load(message: types.Message, state: FSMContext) -> None:
     await state.finish()
 
 
-# назначение состояний
-class ClientStatesGroup(StatesGroup):
-    nothing = State()
-    board = State()
-    desc = State()
-
-
-# выбрали способ 1
-async def choose_way1(message: types.Message) -> None:
+async def choose_way_1(message: types.Message) -> None:
     await ClientStatesGroup.nothing.set()
     await message.answer(read_answers['RU']['chosen_way_with_bot'])
     await message.answer(read_answers['RU']['chosen_way_with_bot_2'],
@@ -91,7 +89,7 @@ async def start_learn_script(message: types.Message) -> None:
 
 
 # начало ознакомления с командами в целом
-async def learn_comands(message: types.Message) -> None:
+async def learn_commands(message: types.Message) -> None:
     await ClientStatesGroup.nothing.set()
     await message.answer(read_answers['RU']['first_step_learning_commands'])
     await message.answer(read_answers['RU']['first_step_learning_commands_2'],
@@ -99,7 +97,7 @@ async def learn_comands(message: types.Message) -> None:
 
 
 # ознакомление с командой «Кнопка»
-async def learn_comand1(message: types.Message) -> None:
+async def learn_command1(message: types.Message) -> None:
     await ClientStatesGroup.nothing.set()
     await message.answer(read_answers['RU']['second_step_learning_commands'])
     await message.answer(read_answers['RU']['second_step_learning_commands_2'])
@@ -111,7 +109,7 @@ async def learn_comand1(message: types.Message) -> None:
 
 
 # ознакомление с командой «Переключатель»
-async def learn_comand2(message: types.Message) -> None:
+async def learn_command2(message: types.Message) -> None:
     await ClientStatesGroup.nothing.set()
     await message.answer(read_answers['RU']['third_step_learning_commands'])
     await message.answer(read_answers['RU']['third_step_learning_commands_2'])
@@ -184,7 +182,7 @@ def registration_of_handlers(dispatcher: Dispatcher):
     dispatcher.register_message_handler(
         cancel_load, commands=["cancel"], state="*")
     dispatcher.register_message_handler(
-        choose_way1, Text(equals=read_answers['RU']['to_first_method'],
+        choose_way_1, Text(equals=read_answers['RU']['to_first_method'],
                           ignore_case=True), state="*")
     dispatcher.register_message_handler(
         fstep1, Text(equals=read_answers['RU']['to_step_one'],
@@ -205,14 +203,14 @@ def registration_of_handlers(dispatcher: Dispatcher):
         start_learn_script, Text(equals=read_answers['RU']['design_rules'],
                                  ignore_case=True), state="*")
     dispatcher.register_message_handler(
-        learn_comands, Text(equals=read_answers['RU']['possible_commands'],
-                            ignore_case=True), state="*")
+        learn_commands, Text(equals=read_answers['RU']['possible_commands'],
+                             ignore_case=True), state="*")
     dispatcher.register_message_handler(
-        learn_comand1, Text(equals=read_answers['RU']['option_button'],
-                            ignore_case=True), state="*")
+        learn_command1, Text(equals=read_answers['RU']['option_button'],
+                             ignore_case=True), state="*")
     dispatcher.register_message_handler(
-        learn_comand2, Text(equals=read_answers['RU']['option_switch'],
-                            ignore_case=True), state="*")
+        learn_command2, Text(equals=read_answers['RU']['option_switch'],
+                             ignore_case=True), state="*")
     dispatcher.register_message_handler(
         learn_comand3, Text(equals=read_answers['RU']['option_delay'],
                             ignore_case=True), state="*")

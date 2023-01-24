@@ -8,9 +8,9 @@ import yaml
 import os
 
 LANGUAGE = 'RU'
-filename = '/static/texts/answers_text_without_bot.yaml'
+TEXT_PATH = '/static/texts/answers_text_without_bot.yaml'
 
-with open(os.getcwd() + filename, encoding='utf-8') as fh:
+with open(os.getcwd() + TEXT_PATH, encoding='utf-8') as fh:
     dictionary_yaml_answers = yaml.safe_load(fh)
 
 
@@ -48,6 +48,7 @@ async def start_load_board(message: types.Message) -> None:
 
 # Сохранение прошивки
 async def load_board(message: types.Message):
+    # TODO: написать сборку зипфайла с названием по тг айди
     await ClientStatesGroup2.board.set()
     board_id = message.document.file_id
     board_info = await bot.get_file(board_id)
@@ -63,6 +64,7 @@ async def start_load_desc(message: types.Message) -> None:
 
 async def scan_message(message: types.Message, state: FSMContext):
     document_id = message.document.file_id
+    # TODO: вызов отправки зипника на гугл драйв
     file_info = await bot.get_file(document_id)
     await message.document.download(file_info.file_path)
     await message.answer(dictionary_yaml_answers[LANGUAGE]['file_saving'])
