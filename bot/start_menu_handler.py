@@ -34,7 +34,8 @@ async def bot_message(message: types.Message) -> None:
                                reply_markup=mp.menu)
 
     elif message.text == "Поддержка":
-        await bot.send_message(message.from_user.id, "Вы обратились в поддержку, по всем вопросам пишите на почту",
+        await bot.send_message(message.from_user.id, "Вы обратились в поддержку,\n по "
+                                                     "всем вопросам пишите на почту",
                                reply_markup=mp.support)
 
 
