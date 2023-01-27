@@ -33,6 +33,10 @@ async def bot_message(message: types.Message) -> None:
         await bot.send_message(message.from_user.id, "⬅ Меню",
                                reply_markup=mp.menu)
 
+    elif message.text == "Поддержка":
+        await bot.send_message(message.from_user.id, "Вы обратились в поддержку, по всем вопросам пишите на почту",
+                               reply_markup=mp.support)
+
 
 def registration_of_handlers(dispatcher: Dispatcher):
     dispatcher.register_message_handler(cmd_start,
@@ -42,4 +46,7 @@ def registration_of_handlers(dispatcher: Dispatcher):
                                              ignore_case=True))
     dispatcher.register_message_handler(cmd_start,
                                         Text(equals="⬅ Меню",
+                                             ignore_case=True))
+    dispatcher.register_message_handler(bot_message,
+                                        Text(equals="Поддержка",
                                              ignore_case=True))

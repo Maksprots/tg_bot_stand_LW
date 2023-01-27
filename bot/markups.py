@@ -7,6 +7,8 @@ start = ReplyKeyboardMarkup(resize_keyboard=True).add(bt.menu, bt.support)
 menu = ReplyKeyboardMarkup(resize_keyboard=True) \
     .add(bt.way_1, bt.way_2).add(bt.back2menu)
 
+support = ReplyKeyboardMarkup(resize_keyboard=True).add(bt.back2menu)
+
 ways = ReplyKeyboardMarkup(resize_keyboard=True).add(bt.cancel)
 step_1 = ReplyKeyboardMarkup(resize_keyboard=True).add(bt.cancel, bt.to_step_1)
 
