@@ -2,6 +2,7 @@ from aiogram.types import KeyboardButton
 
 menu = KeyboardButton("Меню")
 support = KeyboardButton("Поддержка")
+send = KeyboardButton("Отправить")
 way_1 = KeyboardButton("Способ 1")
 way_2 = KeyboardButton("Способ 2")
 more = KeyboardButton("Подробнее")
