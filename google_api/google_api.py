@@ -16,8 +16,7 @@ class GoogleDrive:
                  credentials_path=cd.CREDENTIALS_PATH,
                  scopes=cd.SCOPES):
         if not os.path.exists(credentials_path):
-            print('file isnt exist')
-            raise OpenCreds
+            raise OpenCreds('File is not exist')
 
         creds = service_account.Credentials.from_service_account_file(
             credentials_path,
@@ -29,8 +28,7 @@ class GoogleDrive:
                                  credentials=creds,
                                  static_discovery=False)
         except MutualTLSChannelError:
-            print('build is not successful')
-            raise BuildService
+            raise BuildService('Build is not successful')
 
     def load_file(self, file_path: str, filename: str) -> str:
         """Function load your file to drive folder (config).
@@ -49,11 +47,9 @@ class GoogleDrive:
                         media_body=media,
                         fields='id').execute()
         except HttpError:
-            print('response is not 2XX')
-            raise LoadHttp
+            raise LoadHttp('Response is not 2XX')
         except HttpLib2Error:
-            print("transport err")
-            raise LoadHttp
+            raise LoadHttp('Transport err')
 
         file_id = response.get('id')
         return cd.file_link.format(file_id)
