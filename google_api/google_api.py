@@ -48,15 +48,15 @@ class GoogleDrive:
                 .create(body=file_metadata,
                         media_body=media,
                         fields='id').execute()
-
-            file_id = response.get('id')
-            return cd.file_link.format(file_id)
         except HttpError:
             print('response is not 2XX')
             raise LoadHttp
         except HttpLib2Error:
             print("transport err")
             raise LoadHttp
+
+        file_id = response.get('id')
+        return cd.file_link.format(file_id)
 
 
 if __name__ == "__main__":
