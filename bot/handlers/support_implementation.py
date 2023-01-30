@@ -9,6 +9,7 @@ from bot import markups as mp
 import yaml
 import os
 
+
 load_dotenv()
 CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 
@@ -24,10 +25,12 @@ with open(os.getcwd() + TEXT_PATH,
           encoding='UTF-8') as f:
     read_answers = yaml.safe_load(f)
 
+
 class UserState(StatesGroup):
     name = State()
     email = State()
     ticket = State()
+
 
 async def support_anwser(message: types.Message, state: FSMContext):
     await message.answer(read_answers[LANGUAGE]['support_greetings'],
@@ -55,8 +58,8 @@ async def get_ticket(message: types.Message, state: FSMContext):
                          f"Адрес: {data['email']}\n"
                          f"Текст проблемы: {data['ticket']}")
     await bot.send_message(CHAT_ID, f'Имя: {data["username"]}\n'
-                                          f'Адрес: {data["email"]}\n'
-                                          f'Текст проблемы: {data["ticket"]}')
+                                    f'Адрес: {data["email"]}\n'
+                                    f'Текст проблемы: {data["ticket"]}')
     await message.answer(read_answers[LANGUAGE]['call_successful'],
                          reply_markup=mp.start)
     await state.finish()
@@ -83,5 +86,3 @@ def registration_of_handlers(dispatcher: Dispatcher):
     dispatcher.register_message_handler(get_username, state=UserState.name)
     dispatcher.register_message_handler(get_email, state=UserState.email)
     dispatcher.register_message_handler(get_ticket, state=UserState.ticket)
-
-
