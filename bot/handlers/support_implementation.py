@@ -1,5 +1,4 @@
 from aiogram.dispatcher.filters.state import StatesGroup, State
-from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram import Bot, Dispatcher, types
 from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher import FSMContext
@@ -51,12 +50,20 @@ async def get_email(message: types.Message, state: FSMContext):
 async def get_ticket(message: types.Message, state: FSMContext):
     await state.update_data(ticket=message.text)
     data = await state.get_data()
-    await message.answer(f"Имя: {data['username']}\n"
-                         f"Адрес: {data['email']}\n"
-                         f"Текст проблемы: {data['ticket']}")
-    await bot.send_message(CHAT_ID, f'Имя: {data["username"]}\n'
-                                    f'Адрес: {data["email"]}\n'
-                                    f'Текст проблемы: {data["ticket"]}')
+
+    await message.answer(read_answers[LANGUAGE]['string_name']
+                         + f": {data['username']}\n")
+    await message.answer(read_answers[LANGUAGE]['string_email']
+                         + f": {data['email']}\n")
+    await message.answer(read_answers[LANGUAGE]['string_ticket']
+                         + f": {data['ticket']}")
+    await bot.send_message(CHAT_ID, read_answers[LANGUAGE]['string_name']
+                           + f": {data['username']}\n")
+    await bot.send_message(CHAT_ID, read_answers[LANGUAGE]['string_email']
+                           + f": {data['email']}\n")
+    await bot.send_message(CHAT_ID, read_answers[LANGUAGE]['string_ticket']
+                           + f": {data['ticket']}")
+
     await message.answer(read_answers[LANGUAGE]['call_successful'],
                          reply_markup=mp.start)
     await state.finish()
