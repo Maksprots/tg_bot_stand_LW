@@ -2,12 +2,12 @@ from aiogram.types import KeyboardButton
 
 menu = KeyboardButton("Меню")
 support = KeyboardButton("Поддержка")
-send = KeyboardButton("Отправить")
 way_1 = KeyboardButton("Способ 1")
 way_2 = KeyboardButton("Способ 2")
 more = KeyboardButton("Подробнее")
 back2menu = KeyboardButton("⬅ Меню")
 cancel = KeyboardButton("/cancel")
+cancel_2 = KeyboardButton("Отмена")
 to_step_1 = KeyboardButton("К шагу 1")
 to_step_2 = KeyboardButton("К шагу 2")
 to_step_3 = KeyboardButton("К шагу 3")

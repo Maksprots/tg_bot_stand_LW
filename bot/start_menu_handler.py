@@ -3,31 +3,27 @@ from bot.create_bot import bot
 from bot import markups as mp
 from aiogram.dispatcher.filters import Text
 from handlers.support_implementation import support_anwser
+import yaml
+import os
+
+TEXT_PATH = '/static/texts/answers_text_with_bot.yaml'
+LANGUAGE = 'RU'
+
+with open(os.getcwd() + TEXT_PATH,
+          encoding='UTF-8') as f:
+    read_answers = yaml.safe_load(f)
+
 
 async def cmd_start(message: types.Message) -> None:
-    await message.answer("Вы находитесь в лаборатории для удаленного "
-                         "управления стендами ПЛИС!\n"
-                         "Чтобы приступить к работе выберете раздел "
-                         "«Меню»\n"
-                         "Если есть вопросы нажмите «Поддержка»",
+    await message.answer(read_answers[LANGUAGE]['start_menu_greetings'],
                          reply_markup=mp.start)
 
 
 # @dispatcher.message_handler()
 async def bot_message(message: types.Message) -> None:
     if message.text == "Меню":
-        await bot.send_message(message.from_user.id, "Есть два варианта работы"
-                                                     " с удаленным стендом "
-                                                     "лаборатории:\n\n "
-                                                     "Способ 1(через бота):\n"
-                                                     "Бот пошагово объясняет и"
-                                                     " выполняет вашу "
-                                                     "лабораторную"
-                                                     "\n\n"
-                                                     "Способ 2:\n"
-                                                     "Какое-то описание "
-                                                     "способа 2.\n\n"
-                                                     "Выберите способ\n",
+        await bot.send_message(message.from_user.id,
+                               read_answers[LANGUAGE]['stand_options'],
                                reply_markup=mp.menu)
     elif message.text == "⬅ Меню":
         await bot.send_message(message.from_user.id, "⬅ Меню",

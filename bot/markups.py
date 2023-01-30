@@ -4,8 +4,7 @@ import buttons as bt
 
 start = ReplyKeyboardMarkup(resize_keyboard=True).add(bt.menu, bt.support)
 
-support = ReplyKeyboardMarkup(resize_keyboard=True).add(bt.back2menu)\
-    .add(bt.send)
+support = ReplyKeyboardMarkup(resize_keyboard=True).add(bt.cancel_2)
 
 menu = ReplyKeyboardMarkup(resize_keyboard=True) \
     .add(bt.way_1, bt.way_2).add(bt.back2menu)
