@@ -1,7 +1,7 @@
 from aiogram.dispatcher.filters.state import StatesGroup, State
-from aiogram import Bot, Dispatcher, types
 from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher import FSMContext
+from aiogram import Dispatcher, types
 import yaml
 import os
 from dotenv import load_dotenv
@@ -11,7 +11,6 @@ from bot import markups as mp
 
 load_dotenv()
 CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
-
 
 TEXT_PATH = '/static/texts/answers_text_with_bot.yaml'
 LANGUAGE = 'RU'
