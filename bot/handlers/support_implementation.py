@@ -1,24 +1,21 @@
 from aiogram.dispatcher.filters.state import StatesGroup, State
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
-from aiogram import Bot, Dispatcher, executor, types
+from aiogram import Bot, Dispatcher, types
 from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher import FSMContext
+import yaml
+import os
 from dotenv import load_dotenv
 from bot.create_bot import bot
 from bot import markups as mp
-import yaml
-import os
 
 
 load_dotenv()
 CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 
-storage = MemoryStorage()
-dp = Dispatcher(bot, storage=storage)
 
 TEXT_PATH = '/static/texts/answers_text_with_bot.yaml'
 LANGUAGE = 'RU'
-CHAT_ID = '-1001859110427'
 
 
 with open(os.getcwd() + TEXT_PATH,
