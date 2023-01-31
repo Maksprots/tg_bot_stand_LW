@@ -151,6 +151,7 @@ RU:
   string_ticket: Текст проблемы
   valid_email: Email корректный
   invalid_email: Email не корректный!
+  ask_email: Укажите адрес электронной почты с доменом edu.hse.ru
 
 
 
