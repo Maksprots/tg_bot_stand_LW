@@ -39,6 +39,9 @@ async def ask_for_email(message: types.Message) -> None:
 # Сохранение почты
 async def save_mail(message: types.Message, state: FSMContext):
     user_email = message.text
+    if 'edu.hse.ru' not in user_email:
+        await ask_for_email(message)
+        await save_mail(message)
     await state.update_data(email=user_email)
     await choose_way_1(message=message)
 
