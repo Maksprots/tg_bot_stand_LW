@@ -35,6 +35,7 @@ async def ask_for_email(message: types.Message) -> None:
     await ClientStatesGroup.mail.set()
     await message.answer(read_answers['RU']['ask_email'])
 
+
 # Сохранение почты
 async def save_mail(message: types.Message, state: FSMContext):
     user_email = message.text
