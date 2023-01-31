@@ -197,9 +197,6 @@ async def scan_message(message: types.Message, state: FSMContext):
 def registration_of_handlers(dispatcher: Dispatcher):
     dispatcher.register_message_handler(
         cancel_load, commands=["cancel"], state="*")
-    # dispatcher.register_message_handler(
-    #    choose_way_1, Text(equals=read_answers['RU']['to_first_method'],
-    #                      ignore_case=True), state="*")
     dispatcher.register_message_handler(
         ask_for_email, Text(equals="Способ 1", ignore_case=True), state="*")
     dispatcher.register_message_handler(
