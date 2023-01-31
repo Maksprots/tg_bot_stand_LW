@@ -8,8 +8,8 @@ import yaml
 import os
 
 
-LANGUAGE = 'RU'
 TEXT_PATH = '/static/texts/answers_text_without_bot.yaml'
+LANGUAGE = 'RU'
 with open(os.getcwd() + TEXT_PATH, encoding='utf-8') as fh:
     dictionary_yaml_answers = yaml.safe_load(fh)
 
