@@ -7,9 +7,9 @@ from bot import markups as mp
 import yaml
 import os
 
+
 LANGUAGE = 'RU'
 TEXT_PATH = '/static/texts/answers_text_without_bot.yaml'
-
 with open(os.getcwd() + TEXT_PATH, encoding='utf-8') as fh:
     dictionary_yaml_answers = yaml.safe_load(fh)
 
@@ -30,9 +30,21 @@ class ClientStatesGroup2(StatesGroup):
     nothing = State()
     board = State()
     desc = State()
+    mail = State()
 
 
-# начало работы в ветви
+async def ask_for_email(message: types.Message) -> None:
+    await ClientStatesGroup2.mail.set()
+    await message.answer(dictionary_yaml_answers[LANGUAGE]['ask_email'])
+
+
+# Сохранение почты
+async def save_mail(message: types.Message,  state: FSMContext):
+    user_email = message.text
+    await state.update_data(email=user_email)
+    await choose_way(message=message)
+
+
 async def choose_way(message: types.Message) -> None:
     await ClientStatesGroup2.nothing.set()
     await message \
@@ -66,9 +78,11 @@ async def scan_message(message: types.Message, state: FSMContext):
     document_id = message.document.file_id
     # TODO: вызов отправки зипника на гугл драйв
     file_info = await bot.get_file(document_id)
+    data = await state.get_data()
     await message.document.download(file_info.file_path)
     await message.answer(dictionary_yaml_answers[LANGUAGE]['file_saving'])
-    await message.answer(dictionary_yaml_answers[LANGUAGE]['wait_letter'],
+    await message.answer(dictionary_yaml_answers[LANGUAGE]['wait_letter'] + " "
+                         + data['email'],
                          reply_markup=mp.menu)
     await state.finish()
 
@@ -77,7 +91,10 @@ def registration_of_handlers(dispatcher: Dispatcher):
     dispatcher.register_message_handler(
         cancel_load_w2, commands=["cancel"], state="*")
     dispatcher.register_message_handler(
-        choose_way, Text(equals="Способ 2", ignore_case=True), state="*")
+        ask_for_email, Text(equals="Способ 2", ignore_case=True), state="*")
+    dispatcher.register_message_handler(
+        save_mail,
+        state=ClientStatesGroup2.mail.state)
     dispatcher.register_message_handler(
         start_load_board, Text(equals="Загрузка прошивки", ignore_case=True),
         state="*")
