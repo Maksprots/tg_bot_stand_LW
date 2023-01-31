@@ -18,6 +18,7 @@ class ClientStatesGroup(StatesGroup):
     nothing = State()
     board = State()
     desc = State()
+    mail = State()
 
 
 # Отмена загрузки файлов
@@ -28,6 +29,21 @@ async def cancel_load(message: types.Message, state: FSMContext) -> None:
     await message.reply(read_answers['RU']['back_to_menu'],
                         reply_markup=mp.menu)
     await state.finish()
+
+
+async def ask_for_email(message: types.Message) -> None:
+    await ClientStatesGroup.mail.set()
+    #await message.answer(read_answers['RU']['ask_email'])
+    await message.answer('Укажите адрес электронной почты с доменом edu.hse.ru')
+
+# Сохранение почты
+async def save_mail(message: types.Message, state: FSMContext):
+    user_email = message.text
+    if 'edu.hse.ru' not in user_email:
+        await ask_for_email(message)
+        await save_mail(message)
+    await state.update_data(email=user_email)
+    await choose_way_1(message=message)
 
 
 async def choose_way_1(message: types.Message) -> None:
@@ -182,8 +198,10 @@ def registration_of_handlers(dispatcher: Dispatcher):
     dispatcher.register_message_handler(
         cancel_load, commands=["cancel"], state="*")
     dispatcher.register_message_handler(
-        choose_way_1, Text(equals=read_answers['RU']['to_first_method'],
-                          ignore_case=True), state="*")
+        ask_for_email, Text(equals="Способ 1", ignore_case=True), state="*")
+    dispatcher.register_message_handler(
+        save_mail,
+        state=ClientStatesGroup.mail.state)
     dispatcher.register_message_handler(
         fstep1, Text(equals=read_answers['RU']['to_step_one'],
                      ignore_case=True), state="*")
