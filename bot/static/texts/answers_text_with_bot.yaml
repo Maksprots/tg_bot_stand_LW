@@ -117,8 +117,8 @@ RU:
   to_first_method: Способ 1
   to_step_one: К шагу 1
   to_step_two: К шагу 2
-  to_step_three: К шагу три
-  to_step_four: К шагу четыре
+  to_step_three: К шагу 3
+  to_step_four: К шагу 4
   design_rules: Правила оформления
   possible_commands: Команды
   option_button: Команда «Кнопка»
@@ -151,6 +151,7 @@ RU:
   string_ticket: Текст проблемы
   valid_email: Email корректный
   invalid_email: Email не корректный!
+  ask_email: Укажите адрес электронной почты с доменом edu.hse.ru
 
 
 

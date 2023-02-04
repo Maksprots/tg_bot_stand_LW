@@ -33,13 +33,14 @@ async def cancel_load(message: types.Message, state: FSMContext) -> None:
 
 async def ask_for_email(message: types.Message) -> None:
     await ClientStatesGroup.mail.set()
-    #await message.answer(read_answers['RU']['ask_email'])
-    await message.answer('Укажите адрес электронной почты с доменом edu.hse.ru')
+    await message.answer(read_answers['RU']['ask_email'])
+
 
 # Сохранение почты
 async def save_mail(message: types.Message, state: FSMContext):
     user_email = message.text
-    if 'edu.hse.ru' not in user_email:
+    if not (user_email[len(user_email) - len('@edu.hse.ru'):] == '@edu.hse.ru'
+            and user_email.count('@') == 1 and user_email != '@edu.hse.ru'):
         await ask_for_email(message)
         await save_mail(message)
     await state.update_data(email=user_email)
