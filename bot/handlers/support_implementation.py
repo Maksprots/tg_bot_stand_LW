@@ -49,6 +49,7 @@ async def get_email(message: types.Message, state: FSMContext):
 async def get_ticket(message: types.Message, state: FSMContext):
     await state.update_data(ticket=message.text)
     data = await state.get_data()
+    print(data)
 
     await message.answer(read_answers[LANGUAGE]['string_name']
                          + f": {data['username']}\n")
