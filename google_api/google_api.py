@@ -69,7 +69,7 @@ class GoogleSheets:
 
         self.sheet = service.spreadsheets()
 
-    def write_requaest_to_table(self, email_address, link_to_folder):
+    def write_request_to_table(self, email_address, link_to_folder):
         """"Function write row to google table ( date, mail, link to zip)
         """
         number_of_current_string = len(self.sheet.values()
@@ -96,5 +96,5 @@ class GoogleSheets:
 if __name__ == "__main__":
     # d = GoogleDrive()
     # print(d.load_file(file_path='test_load.html', filename="test2_maks.html"))
-    d = GoogleSheets()
-    d.write_requaest_to_table('aafd', 'afd')
+    # d = GoogleSheets()
+    # d.write_requaest_to_table('aafd', 'afd')
