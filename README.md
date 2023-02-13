@@ -5,7 +5,8 @@
 
 1. Download and install python 3.10 for windows:
 tick "Add python to PATH" !!
-[python 3.9](https://www.python.org/downloads/release/python-390/)
+
+  [python 3.9](https://www.python.org/downloads/release/python-390/)
 
 2. There are also several ways to install Git on Windows. 
 The official build is available for download on the official Git website. 
@@ -95,7 +96,7 @@ ___
 1. Загрузите и установите Python 3.10 для Windows:
 отметьте «Добавить python в PATH» !!
 
-[python 3.9](https://www.python.org/downloads/release/python-390/)
+  [python 3.9](https://www.python.org/downloads/release/python-390/)
 
 2. Вот также несколько способов установки Git в Windows.
 Официальная сборка доступна для скачивания на официальном сайте Git.
