@@ -1,6 +1,10 @@
-#  Telegram bot for working with a remote laboratory stand
+#  Telegram bot for working with a remote laboratory stand v1
 
-
+## Description
+Using this bot, you can perform laboratory work on remote stands. 
+Version 1 uses google api, version 2 will be faster and correct 
+solution. Today Google api is used in the project for quick 
+integration of the bot.
 ## Windows
 
 1. Download and install python 3.10 for windows:
@@ -48,49 +52,19 @@ python run.py
 
 ### Useed moduls
 ```
-aiogram==2.23.1
-aiohttp==3.8.3
-aiosignal==1.3.1
-async-timeout==4.0.2
-asynctest==0.13.0
-attrs==22.1.0
-Babel==2.9.1
-cachetools==5.3.0
-certifi==2022.9.24
-charset-normalizer==2.1.1
-frozenlist==1.3.3
-google-api-core==2.11.0
-google-api-python-client==2.74.0
-google-auth==2.16.0
-google-auth-httplib2==0.1.0
-googleapis-common-protos==1.58.0
-httplib2==0.21.0
-idna==3.4
-magic-filter==1.0.9
-mccabe==0.7.0
-multidict==6.0.3
-protobuf==4.21.12
-pyasn1==0.4.8
-pyasn1-modules==0.2.8
-pycodestyle==2.10.0
-pyflakes==3.0.1
-pyparsing==3.0.9
-python-dotenv==0.21.0
-pytz==2022.6
-PyYAML==6.0
-requests==2.28.2
-rsa==4.9
-six==1.16.0
-typing_extensions==4.4.0
-uritemplate==4.1.1
-urllib3==1.26.14
-yarl==1.8.2
+aiogram
+api google drive
+api google sheets
 ```
 ___
 
 #  Телеграм бот для работы с удаленной лабораторией
 
-
+## Описание
+При помощи этого бота можно выпольнять лабораторные работы на
+удаленных стендах. В верисии 1 используется  google api в версии
+2 будет более быстрое и правильное решение. Сегодня гугл апи 
+используется в проекте для быстрогой инеграции бота.
 ## Windows
 
 1. Загрузите и установите Python 3.10 для Windows:
@@ -132,43 +106,9 @@ pip install -r requirements.txt
 
 ### Используемые модули
 ```
-aiogram==2.23.1
-aiohttp==3.8.3
-aiosignal==1.3.1
-async-timeout==4.0.2
-asynctest==0.13.0
-attrs==22.1.0
-Babel==2.9.1
-cachetools==5.3.0
-certifi==2022.9.24
-charset-normalizer==2.1.1
-frozenlist==1.3.3
-google-api-core==2.11.0
-google-api-python-client==2.74.0
-google-auth==2.16.0
-google-auth-httplib2==0.1.0
-googleapis-common-protos==1.58.0
-httplib2==0.21.0
-idna==3.4
-magic-filter==1.0.9
-mccabe==0.7.0
-multidict==6.0.3
-protobuf==4.21.12
-pyasn1==0.4.8
-pyasn1-modules==0.2.8
-pycodestyle==2.10.0
-pyflakes==3.0.1
-pyparsing==3.0.9
-python-dotenv==0.21.0
-pytz==2022.6
-PyYAML==6.0
-requests==2.28.2
-rsa==4.9
-six==1.16.0
-typing_extensions==4.4.0
-uritemplate==4.1.1
-urllib3==1.26.14
-yarl==1.8.2
+aiogram
+api google drive
+api google sheets
 ```
 
 ## Запуск бота:

@@ -58,24 +58,26 @@ class GoogleDrive:
 
 
 class GoogleSheets:
-    def __init__(self):
+    def __init__(self, credentials_path=cs.CREDENTIALS_PATH,
+                 scopes=cs.SCOPES):
+        if not os.path.exists(credentials_path):
+            raise OpenCreds('File is not exist')
         flow = InstalledAppFlow.from_client_secrets_file(
-            cs.CREDENTIALS_PATH,
-            cs.SCOPES)
+            credentials_path,
+            scopes)
         creds = flow.run_local_server(port=0)
-        service = build('sheets',
-                        cs.SHEETS_VERSION,
-                        credentials=creds)
+        try:
+            service = build('sheets',
+                            cs.SHEETS_VERSION,
+                            credentials=creds)
 
-        self.sheet = service.spreadsheets()
+            self.sheet = service.spreadsheets()
+        except MutualTLSChannelError:
+            raise BuildService("buil sheets api error")
 
     def write_request_to_table(self, email_address, link_to_folder):
         """"Function write row to google table ( date, mail, link to zip)
         """
-        number_of_current_string = len(self.sheet.values()
-                                       .get(spreadsheetId=cs.SPREADSHEET_ID,
-                                            range=cs.rnage_to_chek_len).execute()
-                                       .get('values'))
 
         today = datetime.datetime.today()
         values = [[
@@ -87,13 +89,20 @@ class GoogleSheets:
         body = {
             'values': values
         }
-        result = self.sheet.values().append(
-            spreadsheetId=cs.SPREADSHEET_ID, range="A:C",
-            valueInputOption="USER_ENTERED", body=body).execute()
-        print(f"{(result.get('updates').get('updatedCells'))} ")
+        try:
+            result = self.sheet.values().append(
+                spreadsheetId=cs.SPREADSHEET_ID, range="A:C",
+                valueInputOption="USER_ENTERED", body=body).execute()
+        except HttpError:
+            raise LoadHttp('Response is not 2XX')
+        except HttpLib2Error:
+            raise LoadHttp('Transport err')
+        except:
+            LoadHttp('unknown err')
 
 
 if __name__ == "__main__":
+    pass
     # d = GoogleDrive()
     # print(d.load_file(file_path='test_load.html', filename="test2_maks.html"))
     # d = GoogleSheets()
