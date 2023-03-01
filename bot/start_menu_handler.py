@@ -1,15 +1,16 @@
+import yaml
+
 from aiogram import types, Dispatcher
 from bot.create_bot import bot
 from bot import markups as mp
 from aiogram.dispatcher.filters import Text
-from handlers.support_implementation import support_anwser
-import yaml
-import os
+from handlers.support_implementation import support_answer
+from config import TEXT_PATH_WITH
 
-TEXT_PATH = '/static/texts/answers_text_with_bot.yaml'
+
 LANGUAGE = 'RU'
 
-with open(os.getcwd() + TEXT_PATH,
+with open(TEXT_PATH_WITH,
           encoding='UTF-8') as f:
     read_answers = yaml.safe_load(f)
 
@@ -39,6 +40,6 @@ def registration_of_handlers(dispatcher: Dispatcher):
     dispatcher.register_message_handler(cmd_start,
                                         Text(equals="⬅ Меню",
                                              ignore_case=True))
-    dispatcher.register_message_handler(support_anwser,
+    dispatcher.register_message_handler(support_answer,
                                         Text(equals="Поддержка",
                                              ignore_case=True))

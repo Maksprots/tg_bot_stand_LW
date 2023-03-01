@@ -8,15 +8,16 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.errors import HttpError
 from httplib2 import HttpLib2Error
 
-from config import ConfigDrive as cd
-from config import ConfigSheets as cs
-from exceptions import OpenCreds, BuildService, LoadHttp
+from google_api.config import ConfigDrive as cd
+from google_api.config import ConfigSheets as cs
+from google_api.exceptions import OpenCreds, BuildService, LoadHttp
 
 
 class GoogleDrive:
     def __init__(self,
                  credentials_path=cd.CREDENTIALS_PATH,
                  scopes=cd.SCOPES):
+
         if not os.path.exists(credentials_path):
             raise OpenCreds('File is not exist')
 
@@ -103,7 +104,7 @@ class GoogleSheets:
 
 if __name__ == "__main__":
     pass
-    # d = GoogleDrive()
+    d = GoogleDrive()
     # print(d.load_file(file_path='test_load.html', filename="test2_maks.html"))
     # d = GoogleSheets()
     # d.write_requaest_to_table('aafd', 'afd')

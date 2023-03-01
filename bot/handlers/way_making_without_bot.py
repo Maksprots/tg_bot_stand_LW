@@ -8,10 +8,10 @@ import os
 
 from bot.config import path_for_users_firmware, path_for_users_script
 from bot.config import TEXT_PATH_WITHOUT
-
+from bot.handlers.utils.building_and_loading_usr_pack import build_usr_files
 
 LANGUAGE = 'RU'
-with open(os.getcwd() + TEXT_PATH_WITHOUT, encoding='utf-8') as fh:
+with open(TEXT_PATH_WITHOUT, encoding='utf-8') as fh:
     dictionary_yaml_answers = yaml.safe_load(fh)
 
 
@@ -33,17 +33,17 @@ async def cancel_upload_w2(message: types.Message, state: FSMContext) -> None:
     await state.finish()
 
 
-async def ask_for_email(message: types.Message) -> None:
+async def asking_for_email(message: types.Message) -> None:
     await ClientStatesGroup2.mail.set()
     await message.answer(dictionary_yaml_answers[LANGUAGE]['ask_email'])
 
 
 # Сохранение почты
-async def save_email_addr(message: types.Message, state: FSMContext):
+async def saving_email_addr(message: types.Message, state: FSMContext):
     user_email = message.text
     if not (user_email[len(user_email) - len('@edu.hse.ru'):] == '@edu.hse.ru'
             and user_email.count('@') == 1 and user_email != '@edu.hse.ru'):
-        await ask_for_email(message)
+        await asking_for_email(message)
         return
     await state.update_data(email=user_email)
     await chosen_way(message=message)
@@ -88,6 +88,8 @@ async def downloading_of_script(message: types.Message, state: FSMContext):
             message.from_user.id
         )
     )
+    #build_usr_files(message.from_user.id, data['email'])
+
     await message.answer(dictionary_yaml_answers[LANGUAGE]['file_saving'])
     await message.answer(dictionary_yaml_answers[LANGUAGE]['wait_letter'] + " "
                          + data['email'],
@@ -99,9 +101,9 @@ def registration_of_handlers(dispatcher: Dispatcher):
     dispatcher.register_message_handler(
         cancel_upload_w2, commands=["cancel"], state="*")
     dispatcher.register_message_handler(
-        ask_for_email, Text(equals="Способ 2", ignore_case=True), state="*")
+        asking_for_email, Text(equals="Способ 2", ignore_case=True), state="*")
     dispatcher.register_message_handler(
-        save_email_addr,
+        saving_email_addr,
         state=ClientStatesGroup2.mail.state)
     dispatcher.register_message_handler(
         invitation_to_upload_firmware, Text(equals="Загрузка прошивки", ignore_case=True),

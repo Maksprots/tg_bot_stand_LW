@@ -1,22 +1,23 @@
+import yaml
+import os
 from aiogram.dispatcher.filters.state import StatesGroup, State
 from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher import FSMContext
 from aiogram import Dispatcher, types
-import yaml
-import os
 from dotenv import load_dotenv
+
 from bot.create_bot import bot
 from bot import markups as mp
-
+from bot.config import TEXT_PATH_WITH
 
 load_dotenv()
 CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 
-TEXT_PATH = '/static/texts/answers_text_with_bot.yaml'
+
 LANGUAGE = 'RU'
 
 
-with open(os.getcwd() + TEXT_PATH,
+with open(TEXT_PATH_WITH,
           encoding='UTF-8') as f:
     read_answers = yaml.safe_load(f)
 
@@ -27,7 +28,7 @@ class UserState(StatesGroup):
     ticket = State()
 
 
-async def support_anwser(message: types.Message, state: FSMContext):
+async def support_answer(message: types.Message):
     await message.answer(read_answers[LANGUAGE]['support_greetings'],
                          reply_markup=mp.support)
     await message.answer(read_answers[LANGUAGE]['write_name'])
@@ -80,7 +81,7 @@ async def cancel_handler(message: types.Message, state: FSMContext):
 
 def registration_of_handlers(dispatcher: Dispatcher):
     dispatcher.register_message_handler(
-        support_anwser, commands=["Поддержка"])
+        support_answer, commands=["Поддержка"])
 
     dispatcher.register_message_handler(
         cancel_handler, commands=["cancel_2"], state='*')

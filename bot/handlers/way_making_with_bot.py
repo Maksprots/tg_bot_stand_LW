@@ -6,10 +6,10 @@ from aiogram.dispatcher import FSMContext
 from bot import markups as mp
 import yaml
 import os
+from bot.config import TEXT_PATH_WITH
 
-TEXT_PATH = '/static/texts/answers_text_with_bot.yaml'
 
-with open(os.getcwd() + TEXT_PATH,
+with open(TEXT_PATH_WITH,
           encoding='UTF-8') as f:
     read_answers = yaml.safe_load(f)
 
