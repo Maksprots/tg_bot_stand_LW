@@ -20,7 +20,6 @@ async def cmd_start(message: types.Message) -> None:
                          reply_markup=mp.start)
 
 
-# @dispatcher.message_handler()
 async def bot_message(message: types.Message) -> None:
     if message.text == "Меню":
         await bot.send_message(message.from_user.id,

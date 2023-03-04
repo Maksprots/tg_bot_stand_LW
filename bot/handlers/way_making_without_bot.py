@@ -88,7 +88,7 @@ async def downloading_of_script(message: types.Message, state: FSMContext):
             message.from_user.id
         )
     )
-    #build_usr_files(message.from_user.id, data['email'])
+    build_usr_files(message.from_user.id, data['email'])
 
     await message.answer(dictionary_yaml_answers[LANGUAGE]['file_saving'])
     await message.answer(dictionary_yaml_answers[LANGUAGE]['wait_letter'] + " "

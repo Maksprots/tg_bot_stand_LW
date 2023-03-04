@@ -8,10 +8,17 @@ import yaml
 import os
 from bot.config import TEXT_PATH_WITH
 
+from bot.config import path_for_users_firmware, path_for_users_script
+from bot.config import TEXT_PATH_WITHOUT
+from bot.handlers.utils.building_and_loading_usr_pack import build_usr_files
 
 with open(TEXT_PATH_WITH,
           encoding='UTF-8') as f:
     read_answers = yaml.safe_load(f)
+
+
+with open(TEXT_PATH_WITHOUT, encoding='utf-8') as fh:
+    dictionary_yaml_answers = yaml.safe_load(fh)
 
 
 class ClientStatesGroup(StatesGroup):
@@ -22,7 +29,7 @@ class ClientStatesGroup(StatesGroup):
 
 
 # Отмена загрузки файлов
-async def cancel_load(message: types.Message, state: FSMContext) -> None:
+async def cancel_upload(message: types.Message, state: FSMContext) -> None:
     current_state = await state.get_state()
     if current_state is None:
         return
@@ -31,23 +38,23 @@ async def cancel_load(message: types.Message, state: FSMContext) -> None:
     await state.finish()
 
 
-async def ask_for_email(message: types.Message) -> None:
+async def asking_for_email(message: types.Message) -> None:
     await ClientStatesGroup.mail.set()
     await message.answer(read_answers['RU']['ask_email'])
 
 
 # Сохранение почты
-async def save_mail(message: types.Message, state: FSMContext):
+async def saving_email_addr(message: types.Message, state: FSMContext):
     user_email = message.text
     if not (user_email[len(user_email) - len('@edu.hse.ru'):] == '@edu.hse.ru'
             and user_email.count('@') == 1 and user_email != '@edu.hse.ru'):
-        await ask_for_email(message)
-        await save_mail(message)
+        await asking_for_email(message)
+        return
     await state.update_data(email=user_email)
-    await choose_way_1(message=message)
+    await chosen_way(message=message)
 
 
-async def choose_way_1(message: types.Message) -> None:
+async def chosen_way(message: types.Message) -> None:
     await ClientStatesGroup.nothing.set()
     await message.answer(read_answers['RU']['chosen_way_with_bot'])
     await message.answer(read_answers['RU']['chosen_way_with_bot_2'],
@@ -69,13 +76,13 @@ async def fstep2(message: types.Message) -> None:
 
 
 # Отправка пользователем прошивки
-async def start_load_board(message: types.Message) -> None:
+async def invitation_to_upload_firmware(message: types.Message) -> None:
     await ClientStatesGroup.board.set()
     await message.answer(read_answers['RU']['step_3'])
 
 
 # Сохранение прошивки
-async def load_board(message: types.Message):
+async def downloading_firmware(message: types.Message):
     await ClientStatesGroup.board.set()
     board_id = message.document.file_id
     board_info = await bot.get_file(board_id)
@@ -85,7 +92,7 @@ async def load_board(message: types.Message):
 
 
 # отправка пользователем сценария
-async def learn_more_script(message: types.Message) -> None:
+async def invitation_to_upload_script(message: types.Message) -> None:
     await ClientStatesGroup.desc.set()
     await message.answer(read_answers['RU']['need_a_script'])
     await message.answer(read_answers['RU']['need_a_script_2'])
@@ -183,13 +190,38 @@ async def start_load_desc(message: types.Message) -> None:
                          reply_markup=mp.ways)
 
 
-# Сохранить документ
-async def scan_message(message: types.Message, state: FSMContext):
-    document_id = message.document.file_id
-    file_info = await bot.get_file(document_id)
-    await message.document.download(file_info.file_path)
-    await message.answer(read_answers['RU']['file_saving'])
-    await message.answer(read_answers['RU']['success_message'],
+# Сохранение прошивки
+async def downloading_firmware(message: types.Message):
+    await ClientStatesGroup.desc.set()
+    await message.document.download(
+        destination_file=path_for_users_firmware.format(
+            message.from_user.id
+        )
+    )
+    await message.answer(dictionary_yaml_answers['RU']['success_load'],
+                         reply_markup=mp.load_script)
+
+
+
+async def invitation_to_upload_script(message: types.Message) -> None:
+    await ClientStatesGroup.desc.set()
+    await message.answer(dictionary_yaml_answers['RU']['script_loading'])
+
+
+async def downloading_of_script(message: types.Message, state: FSMContext):
+    # TODO: вызов отправки зипника на гугл драйв
+    data = await state.get_data()
+    await message.document.download(
+        destination_file=
+        path_for_users_script.format(
+            message.from_user.id
+        )
+    )
+    build_usr_files(message.from_user.id, data['email'])
+
+    await message.answer(dictionary_yaml_answers['RU']['file_saving'])
+    await message.answer(dictionary_yaml_answers['RU']['wait_letter'] + " "
+                         + data['email'],
                          reply_markup=mp.menu)
     await state.finish()
 
@@ -197,11 +229,11 @@ async def scan_message(message: types.Message, state: FSMContext):
 # регестрация хэндлеров
 def registration_of_handlers(dispatcher: Dispatcher):
     dispatcher.register_message_handler(
-        cancel_load, commands=["cancel"], state="*")
+        cancel_upload, commands=["cancel"], state="*")
     dispatcher.register_message_handler(
-        ask_for_email, Text(equals="Способ 1", ignore_case=True), state="*")
+        asking_for_email, Text(equals="Способ 1", ignore_case=True), state="*")
     dispatcher.register_message_handler(
-        save_mail,
+        saving_email_addr,
         state=ClientStatesGroup.mail.state)
     dispatcher.register_message_handler(
         fstep1, Text(equals=read_answers['RU']['to_step_one'],
@@ -210,14 +242,14 @@ def registration_of_handlers(dispatcher: Dispatcher):
         fstep2, Text(equals=read_answers['RU']['to_step_two'],
                      ignore_case=True), state="*")
     dispatcher.register_message_handler(
-        start_load_board, Text(equals=read_answers['RU']['to_step_three'],
-                               ignore_case=True), state="*")
+        invitation_to_upload_firmware, Text(equals=read_answers['RU']['to_step_three'],
+                                            ignore_case=True), state="*")
     dispatcher.register_message_handler(
-        load_board, content_types=['document'],
+        downloading_firmware, content_types=['document'],
         state=ClientStatesGroup.board.state)
     dispatcher.register_message_handler(
-        learn_more_script, Text(equals=read_answers['RU']['to_step_four'],
-                                ignore_case=True), state="*")
+        invitation_to_upload_script, Text(equals=read_answers['RU']['to_step_four'],
+                                          ignore_case=True), state="*")
     dispatcher.register_message_handler(
         start_learn_script, Text(equals=read_answers['RU']['design_rules'],
                                  ignore_case=True), state="*")
@@ -244,5 +276,8 @@ def registration_of_handlers(dispatcher: Dispatcher):
         start_load_desc, Text(equals=read_answers['RU']['start_load_script'],
                               ignore_case=True), state="*")
     dispatcher.register_message_handler(
-        scan_message, content_types=['document'],
+        downloading_firmware, content_types=['document'],
+        state=ClientStatesGroup.desc.state)
+    dispatcher.register_message_handler(
+        downloading_of_script, content_types=['document'],
         state=ClientStatesGroup.desc.state)
