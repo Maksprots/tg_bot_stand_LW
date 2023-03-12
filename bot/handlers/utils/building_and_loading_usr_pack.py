@@ -1,12 +1,15 @@
 from zipfile import ZipFile
 import os
+
 from google_api.google_api import GoogleSheets, GoogleDrive
 from bot.config import ROOT_DIR
+from bot.create_bot import logger
 
 drive = GoogleDrive()
 sheets = GoogleSheets()
 
 
+@logger.catch()
 def upload_and_delete_zip(id, file_to_load, email_address):
     link_to_file_on_drive = drive.load_file(file_to_load,
                                             filename=file_to_load)
@@ -18,7 +21,7 @@ def upload_and_delete_zip(id, file_to_load, email_address):
     os.remove(f'{id}.zip')
 
 
-
+@logger.catch()
 def build_usr_files(id, email_addr):
     os.chdir(ROOT_DIR + '/documents')
     with ZipFile(f'{id}.zip', 'w') as zip_:

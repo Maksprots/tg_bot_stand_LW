@@ -11,7 +11,7 @@ from httplib2 import HttpLib2Error
 from google_api.config import ConfigDrive as cd
 from google_api.config import ConfigSheets as cs
 from google_api.exceptions import OpenCreds, BuildService, LoadHttp
-
+from bot.create_bot import logger
 
 class GoogleDrive:
     def __init__(self,
@@ -32,7 +32,7 @@ class GoogleDrive:
                                  static_discovery=False)
         except MutualTLSChannelError:
             raise BuildService('Build is not successful')
-
+    @logger.catch()
     def load_file(self, file_path: str, filename: str) -> str:
         """Function load your file to drive folder (config).
         return link to your file in web.
@@ -59,6 +59,7 @@ class GoogleDrive:
 
 
 class GoogleSheets:
+    @logger.catch()
     def __init__(self, credentials_path=cs.CREDENTIALS_PATH,
                  scopes=cs.SCOPES):
         if not os.path.exists(credentials_path):
@@ -76,6 +77,7 @@ class GoogleSheets:
         except MutualTLSChannelError:
             raise BuildService("buil sheets api error")
 
+    @logger.catch()
     def write_request_to_table(self, email_address, link_to_folder):
         """"Function write row to google table ( date, mail, link to zip)
         """
@@ -105,6 +107,3 @@ class GoogleSheets:
 if __name__ == "__main__":
     pass
     d = GoogleDrive()
-    # print(d.load_file(file_path='test_load.html', filename="test2_maks.html"))
-    # d = GoogleSheets()
-    # d.write_requaest_to_table('aafd', 'afd')

@@ -4,11 +4,12 @@ from aiogram.dispatcher.filters.state import StatesGroup, State
 from aiogram.dispatcher import FSMContext
 from bot import markups as mp
 import yaml
-import os
+
 
 from bot.config import path_for_users_firmware, path_for_users_script
 from bot.config import TEXT_PATH_WITHOUT
 from bot.handlers.utils.building_and_loading_usr_pack import build_usr_files
+from bot.create_bot import logger
 
 LANGUAGE = 'RU'
 with open(TEXT_PATH_WITHOUT, encoding='utf-8') as fh:
@@ -78,7 +79,7 @@ async def invitation_to_upload_script(message: types.Message) -> None:
     await ClientStatesGroup2.desc.set()
     await message.answer(dictionary_yaml_answers[LANGUAGE]['script_loading'])
 
-
+@logger.catch()
 async def downloading_of_script(message: types.Message, state: FSMContext):
     # TODO: вызов отправки зипника на гугл драйв
     data = await state.get_data()
