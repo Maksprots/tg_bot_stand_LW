@@ -1,8 +1,8 @@
 from aiogram import executor
 
-from create_bot import dispatcher
-from handlers import way_making_with_bot, way_making_without_bot
-from handlers import support_implementation
+from bot.create_bot import dispatcher
+from bot.handlers import way_making_with_bot, way_making_without_bot
+from bot.handlers import support_implementation
 from bot import start_menu_handler
 
 

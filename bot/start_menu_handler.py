@@ -1,11 +1,11 @@
 import yaml
+from aiogram.dispatcher.filters import Text
 
 from aiogram import types, Dispatcher
 from bot.create_bot import bot
 from bot import markups as mp
-from aiogram.dispatcher.filters import Text
-from handlers.support_implementation import support_answer
-from config import TEXT_PATH_WITH
+from bot.handlers.support_implementation import support_answer
+from bot.config import TEXT_PATH_WITH
 
 
 LANGUAGE = 'RU'

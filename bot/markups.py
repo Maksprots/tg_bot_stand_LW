@@ -1,5 +1,5 @@
 from aiogram.types import ReplyKeyboardMarkup
-import buttons as bt
+import bot.buttons as bt
 
 
 start = ReplyKeyboardMarkup(resize_keyboard=True).add(bt.menu, bt.support)
