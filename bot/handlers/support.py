@@ -10,18 +10,18 @@ from bot.create_bot import bot
 from bot import markups as mp
 from bot.config import TEXT_PATH_WITH
 
+# todo перенести в глобал конфиг
 load_dotenv()
 CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 
-
 LANGUAGE = 'RU'
-
-
+# TODO придумать что-то чтобы все открытия файлов прозодили в одном месте а не в трех
 with open(TEXT_PATH_WITH,
           encoding='UTF-8') as f:
     read_answers = yaml.safe_load(f)
 
 
+# todo перенести все состояния в отдельный файл
 class UserState(StatesGroup):
     name = State()
     email = State()

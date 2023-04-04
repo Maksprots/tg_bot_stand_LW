@@ -20,7 +20,7 @@ with open(TEXT_PATH_WITH,
 with open(TEXT_PATH_WITHOUT, encoding='utf-8') as fh:
     dictionary_yaml_answers = yaml.safe_load(fh)
 
-
+#todo перенести все состояния в отдельный файл
 class ClientStatesGroup(StatesGroup):
     nothing = State()
     board = State()
@@ -45,7 +45,7 @@ async def asking_for_email(message: types.Message) -> None:
 
 # Сохранение почты
 async def saving_email_addr(message: types.Message, state: FSMContext):
-    user_email = message.text
+    user_email = message.text # TODO лишняя переенная что ли
     if not (user_email[len(user_email) - len('@edu.hse.ru'):] == '@edu.hse.ru'
             and user_email.count('@') == 1 and user_email != '@edu.hse.ru'):
         await asking_for_email(message)
@@ -160,7 +160,7 @@ async def learn_comand3(message: types.Message) -> None:
 async def learn_example(message: types.Message) -> None:
     await ClientStatesGroup.nothing.set()
     await bot.send_photo(message.from_user.id,
-                         photo=open(os.getcwd()
+                         photo=open(os.getcwd() #todo пути всегда в конфиге должны быть
                                     + '/static/images/script.jpg', "rb"),
                          caption="Пример составления сценария:")
     await message.answer(read_answers['RU']['scripting_process'])
@@ -226,7 +226,7 @@ async def downloading_of_script(message: types.Message, state: FSMContext):
     await state.finish()
 
 
-# регестрация хэндлеров
+
 def registration_of_handlers(dispatcher: Dispatcher):
     dispatcher.register_message_handler(
         cancel_upload, commands=["cancel"], state="*")

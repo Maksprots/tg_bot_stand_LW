@@ -4,7 +4,7 @@ from aiogram.dispatcher.filters import Text
 from aiogram import types, Dispatcher
 from bot.create_bot import bot
 from bot import markups as mp
-from bot.handlers.support_implementation import support_answer
+from bot.handlers.support import support_answer
 from bot.config import TEXT_PATH_WITH
 
 

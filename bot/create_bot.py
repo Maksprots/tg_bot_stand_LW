@@ -4,6 +4,8 @@ from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from dotenv import load_dotenv
 from loguru import logger
 
+# TODO прописать рабочую откладку логов по всем исключениям
+
 logger.add('testing_log.log', format='{time} {level} {message}',
            level='DEBUG')
 load_dotenv()

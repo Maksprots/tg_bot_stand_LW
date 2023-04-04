@@ -5,7 +5,6 @@ from aiogram.dispatcher import FSMContext
 from bot import markups as mp
 import yaml
 
-
 from bot.config import path_for_users_firmware, path_for_users_script
 from bot.config import TEXT_PATH_WITHOUT
 from bot.handlers.utils.building_and_loading_usr_pack import build_usr_files
@@ -16,6 +15,8 @@ with open(TEXT_PATH_WITHOUT, encoding='utf-8') as fh:
     dictionary_yaml_answers = yaml.safe_load(fh)
 
 
+# TODO прописать рабочую откладку логов по всем исключениям
+# todo перенести все состояния в отдельный файл
 class ClientStatesGroup2(StatesGroup):
     nothing = State()
     board = State()
@@ -41,7 +42,7 @@ async def asking_for_email(message: types.Message) -> None:
 
 # Сохранение почты
 async def saving_email_addr(message: types.Message, state: FSMContext):
-    user_email = message.text
+    user_email = message.text  # TODO ???
     if not (user_email[len(user_email) - len('@edu.hse.ru'):] == '@edu.hse.ru'
             and user_email.count('@') == 1 and user_email != '@edu.hse.ru'):
         await asking_for_email(message)
@@ -79,9 +80,9 @@ async def invitation_to_upload_script(message: types.Message) -> None:
     await ClientStatesGroup2.desc.set()
     await message.answer(dictionary_yaml_answers[LANGUAGE]['script_loading'])
 
+
 @logger.catch()
 async def downloading_of_script(message: types.Message, state: FSMContext):
-    # TODO: вызов отправки зипника на гугл драйв
     data = await state.get_data()
     await message.document.download(
         destination_file=

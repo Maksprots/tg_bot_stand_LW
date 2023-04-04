@@ -12,7 +12,7 @@ from google_api.config import ConfigDrive as cd
 from google_api.config import ConfigSheets as cs
 from google_api.exceptions import OpenCreds, BuildService, LoadHttp
 from bot.create_bot import logger
-
+#TODO прописать рабочую откладку логов по всем исключениям
 
 class GoogleDrive:
     def __init__(self,
@@ -57,6 +57,7 @@ class GoogleDrive:
 
         file_id = response.get('id')
         return cd.file_link.format(file_id)
+    # TODO исправить ссылку ( на стеднде правильная но офромить надо в конфиг)
 
 
 class GoogleSheets:
@@ -101,10 +102,9 @@ class GoogleSheets:
             raise LoadHttp('Response is not 2XX')
         except HttpLib2Error:
             raise LoadHttp('Transport err')
-        except:
+        except :
             LoadHttp('unknown err')
 
 
 if __name__ == "__main__":
-    pass
     d = GoogleDrive()

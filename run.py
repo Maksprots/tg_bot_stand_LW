@@ -2,7 +2,7 @@ from aiogram import executor
 
 from bot.create_bot import dispatcher
 from bot.handlers import way_making_with_bot, way_making_without_bot
-from bot.handlers import support_implementation
+from bot.handlers import support
 from bot import start_menu_handler
 
 

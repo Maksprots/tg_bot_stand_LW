@@ -5,6 +5,7 @@ from google_api.google_api import GoogleSheets, GoogleDrive
 from bot.config import ROOT_DIR
 from bot.create_bot import logger
 
+# TODO прописать рабочую откладку логов по всем исключениям
 drive = GoogleDrive()
 sheets = GoogleSheets()
 
