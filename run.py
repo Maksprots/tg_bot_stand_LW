@@ -7,7 +7,7 @@ from bot import start_menu_handler
 
 
 def run_bot():
-    support_implementation.registration_of_handlers(dispatcher)
+    support.registration_of_handlers(dispatcher)
     start_menu_handler.registration_of_handlers(dispatcher)
     way_making_with_bot.registration_of_handlers(dispatcher)
     way_making_without_bot.registration_of_handlers(dispatcher)
