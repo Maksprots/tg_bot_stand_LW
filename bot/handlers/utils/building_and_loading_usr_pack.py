@@ -24,9 +24,9 @@ def upload_and_delete_zip(id, file_to_load, email_address):
 
 @logger.catch()
 def build_usr_files(id, email_addr):
-    os.chdir(ROOT_DIR + '/documents')
+    os.chdir(ROOT_DIR + '/bot/documents/')
     with ZipFile(f'{id}.zip', 'w') as zip_:
         zip_.write(f'F{id}.sof')
         zip_.write(f'S{id}.txt')
     upload_and_delete_zip(id, f'{id}.zip', email_addr)
-    os.chdir(ROOT_DIR + '/handlers/')
+    os.chdir(ROOT_DIR + '/bot/handlers/')

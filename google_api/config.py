@@ -10,7 +10,7 @@ class ConfigDrive:
     DRIVE_VERSION = 'v3'
 
     folder_id = '15_sFhZeHB_h1WfnuxiLCRj_DFXkZrJgIIOqrzYh6eh1OVg8BanYTFh3E1EIc8mXO_lzGjC6r'
-    file_link = "https://drive.google.com/file/d/{}/view?usp=sharing"
+    file_link = 'https://drive.google.com/open?id={}'
 
 
 @dataclass()
