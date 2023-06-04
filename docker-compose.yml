@@ -1,7 +1,7 @@
 version: "3.2"
 services:
   rabbitmq:
-    image: maksprots/rb
+    image: rb
     container_name: 'rabbitmq'
     ports:
         - 5672:5672
